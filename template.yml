@@ -41,15 +41,10 @@ Resources:
       MemorySize: 128
       Timeout: 60
       Description: A simple example includes a HTTP get method to get all items from a DynamoDB table.
-      DeadLetterQueue:
-        Type: SQS
-        TargetArn: !GetAtt MyQueue.Arn
       Policies:
         # Give Create/Read/Update/Delete Permissions to the SampleTable
         - DynamoDBCrudPolicy:
             TableName: !Ref SampleTable
-        - SQSSendMessagePolicy:
-            QueueName: !GetAtt MyQueue.QueueName
       Environment:
         Variables:
           # Make table name accessible as environment variable from function code during execution
@@ -127,7 +122,3 @@ Resources:
       ProvisionedThroughput:
         ReadCapacityUnits: 2
         WriteCapacityUnits: 2
-
-        
-  MyQueue:
-    Type: AWS::SQS::Queue
